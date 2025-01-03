@@ -1,0 +1,5 @@
+pages/
+  └── index/
+      ├── index.js    // 页面逻辑
+      ├── index.wxml  // 页面结构
+      └── index.wxss  // 页面样式 

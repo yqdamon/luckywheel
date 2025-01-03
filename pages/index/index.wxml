@@ -1,0 +1,22 @@
+<view class="container">
+  <view class="header">
+    <view class="wheel-title">{{wheelTitle}}</view>
+    <view class="prize-name">{{currentPrize || '??'}}</view>
+  </view>
+
+  <view class="wheel-container">
+    <canvas type="2d" id="wheelCanvas" 
+            style="width: {{canvasSize}}px; height: {{canvasSize}}px;"
+            class="wheel-canvas">
+    </canvas>
+  </view>
+  
+  <view class="button-group">
+    <view class="start-btn {{isRotating ? 'disabled' : ''}}" bindtap="startLucky">
+      开始抽奖
+    </view>
+    <view class="edit-btn" bindtap="goToEdit">
+      编辑奖品
+    </view>
+  </view>
+</view> 
