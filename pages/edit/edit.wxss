@@ -194,4 +194,24 @@ button[type="default"] {
   align-items: center;
   gap: 12px;
   flex: 1;
+}
+
+.weight-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.prize-weight {
+  width: 100%;
+  text-align: center;
+}
+
+.weight-percent {
+  font-size: 11px;
+  color: #999;
+  transform: scale(0.95);
+  transform-origin: center top;
 } 

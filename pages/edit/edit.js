@@ -64,21 +64,27 @@ const colorPalette = [
 
 Page({
   data: {
+    wheelTitle: '',
     prizes: []
   },
 
   onLoad() {
-    console.log('[Edit] onLoad');
     const app = getApp();
-    
-    // 设置导航栏标题与主页面一致
-    wx.setNavigationBarTitle({
-      title: app.globalData.wheelTitle || '幸运大转盘'
-    });
-    
+    const prizes = app.globalData.prizes || [];
     this.setData({
-      prizes: app.globalData.prizes || []
+      wheelTitle: app.globalData.wheelTitle || '幸运大转盘',
+      prizes: this.calculatePercents(prizes)
     });
+  },
+
+  calculatePercents(prizes) {
+    const totalWeight = prizes.reduce((sum, prize) => sum + (Number(prize.weight) || 0), 0);
+    return prizes.map(prize => ({
+      ...prize,
+      percent: totalWeight > 0 ? 
+        ((Number(prize.weight) || 0) / totalWeight * 100).toFixed(1) : 
+        '0.0'
+    }));
   },
 
   onShow() {
@@ -116,23 +122,32 @@ Page({
     const { value } = e.detail;
     const prizes = this.data.prizes;
     prizes[index].weight = value;
-    this.setData({ prizes });
+    
+    // 重新计算所有百分比
+    this.setData({
+      prizes: this.calculatePercents(prizes)
+    });
   },
 
   addPrize() {
     const prizes = this.data.prizes;
     prizes.push({
       name: '',
-      weight: 1
+      weight: 1,
+      color: '#ffffff'
     });
-    this.setData({ prizes });
+    this.setData({
+      prizes: this.calculatePercents(prizes)
+    });
   },
 
   deletePrize(e) {
     const { index } = e.currentTarget.dataset;
     const prizes = this.data.prizes;
     prizes.splice(index, 1);
-    this.setData({ prizes });
+    this.setData({
+      prizes: this.calculatePercents(prizes)
+    });
   },
 
   savePrizes() {

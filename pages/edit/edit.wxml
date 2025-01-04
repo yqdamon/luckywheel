@@ -33,12 +33,15 @@
         <view class="color-picker">
           <view class="color-preview" style="background: {{item.color || '#ffffff'}}"></view>
         </view>
-        <input class="weui-input prize-weight" 
-               type="number" 
-               value="{{item.weight}}" 
-               data-index="{{index}}"
-               bindinput="onWeightChange"
-               placeholder="权重"/>
+        <view class="weight-container">
+          <input class="weui-input prize-weight" 
+                 type="number" 
+                 value="{{item.weight}}" 
+                 data-index="{{index}}"
+                 bindinput="onWeightChange"
+                 placeholder="权重"/>
+          <text class="weight-percent">{{item.percent}}%</text>
+        </view>
       </view>
     </view>
   </view>
