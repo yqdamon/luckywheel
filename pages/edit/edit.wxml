@@ -1,36 +1,38 @@
 <view class="container">
-  <view class="title-edit">
-    <text class="title-label">转盘标题：</text>
+  <view class="section">
+    <view class="section-header">转盘标题</view>
     <input class="title-input" 
            type="text" 
            value="{{wheelTitle}}" 
            bindinput="onTitleChange"
-           placeholder="请输入转盘标题"/>
+           placeholder="幸运大转盘"/>
   </view>
 
-  <view class="title-row">
-    <text>转盘选项</text>
-    <text>颜色</text>
-    <text>权重</text>
-  </view>
-  
-  <view class="prize-list">
-    <view class="prize-item" wx:for="{{prizes}}" wx:key="index">
-      <view class="prize-content">
-        <input class="prize-name" 
-               type="text" 
-               value="{{item.name}}" 
-               data-index="{{index}}"
-               bindinput="onNameChange"
-               placeholder="奖品名称"/>
-        <input class="prize-weight" 
-               type="number" 
-               value="{{item.weight}}" 
-               data-index="{{index}}"
-               bindinput="onWeightChange"
-               placeholder="权重"/>
+  <view class="section">
+    <view class="title-row">
+      <text>转盘选项</text>
+      <text>颜色</text>
+      <text>权重</text>
+    </view>
+    
+    <view class="prize-list">
+      <view class="prize-item" wx:for="{{prizes}}" wx:key="index">
+        <view class="prize-content">
+          <input class="prize-name" 
+                 type="text" 
+                 value="{{item.name}}" 
+                 data-index="{{index}}"
+                 bindinput="onNameChange"
+                 placeholder="奖品名称"/>
+          <input class="prize-weight" 
+                 type="number" 
+                 value="{{item.weight}}" 
+                 data-index="{{index}}"
+                 bindinput="onWeightChange"
+                 placeholder="权重"/>
+        </view>
+        <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}">删除</view>
       </view>
-      <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}">删除</view>
     </view>
   </view>
 
