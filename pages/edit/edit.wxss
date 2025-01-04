@@ -1,185 +1,121 @@
 page {
-  background: #f7f7f7;
-  font-size: 17px;
-  line-height: 1.4;
-  color: #333;
-  font-family: -apple-system, "SF Pro SC","SF Pro Text","SF Pro Icons","PingFang SC","Helvetica Neue","Helvetica","Arial",sans-serif;
+  background-color: #f7f7f7;
 }
 
 .container {
-  padding: 20px;
-  background: #f7f7f7;
-  min-height: 100vh;
-  box-sizing: border-box;
+  padding-bottom: 30px;
 }
 
-.section {
-  background: #fff;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
+.weui-cells {
+  margin-top: 0;
+  background-color: #fff;
 }
 
-.section-header {
-  font-size: 15px;
-  color: #333;
-  font-weight: 500;
-  margin-bottom: 10px;
-}
-
-.title-input {
-  width: 100%;
-  height: 40px;
-  padding: 0 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+.weui-cells__title {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  color: rgba(0, 0, 0, 0.5);
   font-size: 14px;
-  box-sizing: border-box;
 }
 
-.prize-list {
-  position: relative;
-  z-index: 101;
-  background: #fff;
-  border-radius: 8px;
-  padding: 10px;
-  margin-bottom: 20px;
+.weui-cell {
+  padding: 16px;
+  line-height: 1.4;
+  font-size: 17px;
+  color: rgba(0, 0, 0, 0.9);
+  background-color: #fff;
 }
 
-.prize-item {
+.prize-inputs {
   display: flex;
-  align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
-}
-
-.prize-item:last-child {
-  border-bottom: none;
-}
-
-.prize-content {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .prize-name {
   flex: 2;
-  height: 40px;
-  padding: 0 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
 }
 
 .prize-weight {
   flex: 1;
-  height: 40px;
-  padding: 0 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
 }
 
 .delete-btn {
-  padding: 8px 15px;
-  background: #ff4444;
-  color: #fff;
-  border-radius: 4px;
-  font-size: 14px;
-  margin-left: 10px;
+  color: #fa5151;
+  font-size: 17px;
 }
 
-.button-group {
+.weui-btn-area {
+  margin: 24px 16px;
   display: flex;
-  gap: 15px;
-  padding: 0 10px;
-  position: relative;
-  z-index: 101;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.add-btn, .save-btn {
-  flex: 1;
-  height: 44px;
-  line-height: 44px;
-  text-align: center;
-  border-radius: 4px;
-  font-size: 16px;
-}
-
-.add-btn {
-  background: #fff;
-  color: #576b95;
-  border: 1px solid #ddd;
-}
-
-.save-btn {
-  background: #07c160;
-  color: #fff;
-}
-
-/* 修复按钮的默认样式 */
-button {
-  margin: 0;
-  padding: 0;
-  background: none;
-  border: none;
-  border-radius: 0;
-  font-size: inherit;
-  color: inherit;
-  line-height: inherit;
-}
-
-button::after {
-  border: none;
-}
-
-.title-row {
-  display: flex;
-  padding: 10px 20px;
-  margin-bottom: 10px;
-  color: #333;
-  font-size: 15px;
+.weui-btn {
   font-weight: 500;
 }
 
-.title-row text {
-  flex: 1;
+button[type="primary"] {
+  background-color: #07c160;
+}
+
+button[type="default"] {
+  background-color: #fff;
+  color: #576b95;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 14px;
+}
+
+.header-item {
   text-align: left;
 }
 
-.title-row text:nth-child(2) {
-  flex: 0.5;
+.header-item.name {
+  flex: 2;
+}
+
+.header-item.color {
+  flex: 1;
   text-align: center;
 }
 
-.title-row text:last-child {
-  flex: 0.5;
-  text-align: right;
+.header-item.weight {
+  flex: 1;
+  text-align: center;
 }
 
-.title-edit {
+.prize-inputs {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
-  background: #fff;
-  border-radius: 8px;
-  margin-bottom: 15px;
+  gap: 12px;
 }
 
-.title-label {
-  font-size: 15px;
-  color: #333;
-  font-weight: 500;
-  margin-right: 10px;
+.prize-name {
+  flex: 2;
 }
 
-.title-input {
+.color-picker {
   flex: 1;
-  height: 40px;
-  padding: 0 10px;
-  border: 1px solid #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.color-preview {
+  width: 24px;
+  height: 24px;
   border-radius: 4px;
-  font-size: 14px;
+  border: 1px solid #ddd;
+}
+
+.prize-weight {
+  flex: 1;
+  text-align: center;
 } 

@@ -1,43 +1,52 @@
 <view class="container">
-  <view class="section">
-    <view class="section-header">转盘标题</view>
-    <input class="title-input" 
-           type="text" 
-           value="{{wheelTitle}}" 
-           bindinput="onTitleChange"
-           placeholder="幸运大转盘"/>
+  <view class="weui-cells__title">转盘标题</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <view class="weui-cell__bd">
+        <input class="weui-input" 
+               type="text" 
+               value="{{wheelTitle}}" 
+               bindinput="onTitleChange"
+               placeholder="幸运大转盘"/>
+      </view>
+    </view>
   </view>
 
-  <view class="section">
-    <view class="title-row">
-      <text>转盘选项</text>
-      <text>颜色</text>
-      <text>权重</text>
+  <view class="weui-cells__title">转盘选项</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd header-row">
+        <text class="header-item name">选项</text>
+        <text class="header-item color">颜色</text>
+        <text class="header-item weight">权重</text>
+      </view>
     </view>
-    
-    <view class="prize-list">
-      <view class="prize-item" wx:for="{{prizes}}" wx:key="index">
-        <view class="prize-content">
-          <input class="prize-name" 
-                 type="text" 
-                 value="{{item.name}}" 
-                 data-index="{{index}}"
-                 bindinput="onNameChange"
-                 placeholder="奖品名称"/>
-          <input class="prize-weight" 
-                 type="number" 
-                 value="{{item.weight}}" 
-                 data-index="{{index}}"
-                 bindinput="onWeightChange"
-                 placeholder="权重"/>
+    <view class="weui-cell prize-item" wx:for="{{prizes}}" wx:key="index">
+      <view class="weui-cell__bd prize-inputs">
+        <input class="weui-input prize-name" 
+               type="text" 
+               value="{{item.name}}" 
+               data-index="{{index}}"
+               bindinput="onNameChange"
+               placeholder="奖品名称"/>
+        <view class="color-picker">
+          <view class="color-preview" style="background: {{item.color || '#ffffff'}}"></view>
         </view>
+        <input class="weui-input prize-weight" 
+               type="number" 
+               value="{{item.weight}}" 
+               data-index="{{index}}"
+               bindinput="onWeightChange"
+               placeholder="权重"/>
+      </view>
+      <view class="weui-cell__ft">
         <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}">删除</view>
       </view>
     </view>
   </view>
 
-  <view class="button-group">
-    <button class="add-btn" bindtap="addPrize">添加奖品</button>
-    <button class="save-btn" bindtap="savePrizes">保存</button>
+  <view class="weui-btn-area">
+    <button class="weui-btn" type="default" bindtap="addPrize">添加奖品</button>
+    <button class="weui-btn" type="primary" bindtap="savePrizes">保存</button>
   </view>
 </view> 
