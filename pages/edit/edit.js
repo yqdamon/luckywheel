@@ -65,7 +65,11 @@ const colorPalette = [
 Page({
   data: {
     wheelTitle: '',
-    prizes: []
+    prizes: [],
+    showColorPicker: false,
+    currentColorIndex: -1,
+    colorPalette,
+    selectedColor: ''
   },
 
   onLoad() {
@@ -154,5 +158,37 @@ Page({
     const app = getApp();
     app.globalData.prizes = this.data.prizes;
     wx.navigateBack();
+  },
+
+  showColorPicker(e) {
+    const { index } = e.currentTarget.dataset;
+    const currentColor = this.data.prizes[index].color;
+    this.setData({
+      showColorPicker: true,
+      currentColorIndex: index,
+      selectedColor: currentColor
+    });
+  },
+
+  hideColorPicker() {
+    this.setData({
+      showColorPicker: false,
+      currentColorIndex: -1
+    });
+  },
+
+  selectColor(e) {
+    const { color } = e.currentTarget.dataset;
+    const { currentColorIndex, prizes } = this.data;
+    
+    // 直接更新颜色并关闭弹窗
+    if (currentColorIndex >= 0) {
+      prizes[currentColorIndex].color = color;
+      this.setData({
+        prizes: this.calculatePercents(prizes),
+        showColorPicker: false,
+        currentColorIndex: -1
+      });
+    }
   }
 }); 

@@ -31,7 +31,11 @@
                bindinput="onNameChange"
                placeholder="奖品名称"/>
         <view class="color-picker">
-          <view class="color-preview" style="background: {{item.color || '#ffffff'}}"></view>
+          <view class="color-preview" 
+                style="background: {{item.color || '#ffffff'}}"
+                bindtap="showColorPicker" 
+                data-index="{{index}}">
+          </view>
         </view>
         <view class="weight-container">
           <input class="weui-input prize-weight" 
@@ -49,5 +53,21 @@
   <view class="weui-btn-area">
     <button class="weui-btn" type="default" bindtap="addPrize">添加奖品</button>
     <button class="weui-btn" type="primary" bindtap="savePrizes">保存</button>
+  </view>
+</view>
+
+<!-- 颜色选择器弹窗 -->
+<view class="color-picker-modal {{showColorPicker ? 'show' : ''}}">
+  <view class="color-picker-content">
+    <view class="close-btn" bindtap="hideColorPicker">×</view>
+    <view class="color-grid">
+      <view class="color-item" 
+            wx:for="{{colorPalette}}" 
+            wx:key="index"
+            style="background: {{item.hex}}"
+            bindtap="selectColor"
+            data-color="{{item.hex}}">
+      </view>
+    </view>
   </view>
 </view> 
