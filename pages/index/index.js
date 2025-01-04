@@ -83,47 +83,37 @@ Page({
       query.select('#wheelCanvas')
         .fields({ node: true, size: true })
         .exec((res) => {
-          if (!res[0]) {
-            console.error('Canvas not found');
-            return;
-          }
+          if (!res[0]) return;
           
           const canvas = res[0].node;
           const ctx = canvas.getContext('2d');
           
-          const dpr = wx.getSystemInfoSync().pixelRatio;
-          canvas.width = res[0].width * dpr;
-          canvas.height = res[0].height * dpr;
+          // 获取屏幕信息
+          const info = wx.getWindowInfo();
+          const dpr = info.pixelRatio;
           
+          // 设置画布尺寸
+          this.canvasWidth = this.data.canvasSize;
+          this.canvasHeight = this.data.canvasSize;
+          
+          // 设置实际渲染尺寸
+          canvas.width = this.canvasWidth * dpr;
+          canvas.height = this.canvasHeight * dpr;
           ctx.scale(dpr, dpr);
           
-          this.ctx = ctx;
           this.canvas = canvas;
-          this.canvasWidth = res[0].width;
-          this.canvasHeight = res[0].height;
-          
+          this.ctx = ctx;
           this.drawWheel();
-          this.setData({ 
-            canvasReady: true,
-            canvasContext: ctx
-          });
-
-          // 保存 canvas 数据
-          this.saveCanvasData();
         });
     },
   
     // 保存 canvas 数据
     saveCanvasData() {
+      // 移除大量数据的保存，只保存必要信息
       if (this.canvas && this.ctx) {
-        try {
-          const imageData = this.ctx.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
-          this.setData({
-            canvasData: imageData
-          });
-        } catch (e) {
-          console.error('Save canvas data failed:', e);
-        }
+        this.setData({
+          canvasReady: true
+        });
       }
     },
   
@@ -155,7 +145,6 @@ Page({
       
       // 绘制每个扇形
       this.data.prizes.forEach((prize, index) => {
-        // 计算角度（加上旋转角度）
         const startRad = (prize.startAngle + this.data.rotateAngle) * Math.PI / 180;
         const endRad = (prize.endAngle + this.data.rotateAngle) * Math.PI / 180;
         
@@ -205,15 +194,6 @@ Page({
       ctx.strokeStyle = '#E0E0E0';
       ctx.lineWidth = 2;
       ctx.stroke();
-
-      // 绘制指针（12点钟方向）
-      ctx.beginPath();
-      ctx.moveTo(centerX, centerY - radius - 10);
-      ctx.lineTo(centerX - 10, centerY - radius + 10);
-      ctx.lineTo(centerX + 10, centerY - radius + 10);
-      ctx.closePath();
-      ctx.fillStyle = '#ff4444';
-      ctx.fill();
     },
   
     onShow() {
@@ -222,12 +202,7 @@ Page({
       const app = getApp();
       
       if (this.data.canvasReady && this.ctx) {
-        // 尝试恢复 canvas 数据
-        if (this.data.canvasData) {
-          this.restoreCanvasData();
-        } else {
-          this.drawWheel();
-        }
+        this.drawWheel();  // 直接重绘
       } else {
         this.initCanvas();
       }

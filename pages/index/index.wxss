@@ -37,23 +37,17 @@ page {
 }
 
 .wheel-container {
-  width: 360px;
-  height: 360px;
-  margin: 10px auto;
-  position: relative;
+  width: 100%;
   display: flex;
-  align-items: center;
   justify-content: center;
-  box-sizing: border-box;
-  z-index: 1;
+  align-items: center;
+  padding: 20px 0;
 }
 
 .wheel-canvas {
-  width: 360px !important;
-  height: 360px !important;
+  width: 360px;
+  height: 360px;
   display: block;
-  position: relative;
-  z-index: 1;
 }
 
 .wheel-pointer {

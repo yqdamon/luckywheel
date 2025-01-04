@@ -9,9 +9,5 @@
     "navigationBarTitleText": "幸运大转盘",
     "navigationBarTextStyle": "black"
   },
-  "style": "v2",
-  "pageTransition": {
-    "type": "slide",
-    "duration": 300
-  }
+  "style": "v2"
 } 

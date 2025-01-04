@@ -4,10 +4,11 @@
     <view class="prize-name">{{currentPrize || '??'}}</view>
   </view>
 
-  <view class="wheel-container" style="z-index: 1;">
-    <canvas type="2d" id="wheelCanvas" 
-            style="width: {{canvasSize}}px; height: {{canvasSize}}px;"
-            class="wheel-canvas">
+  <view class="wheel-container">
+    <canvas type="2d" 
+            id="wheelCanvas" 
+            class="wheel-canvas"
+            style="width: {{canvasSize}}px; height: {{canvasSize}}px;">
     </canvas>
   </view>
   

@@ -1,13 +1,4 @@
 {
   "usingComponents": {},
-  "navigationBarTitleText": "编辑奖品",
-  "navigationStyle": "default",
-  "backgroundColor": "#f7f7f7",
-  "pageOrientation": "auto",
-  "enablePullDownRefresh": false,
-  "disableScroll": false,
-  "pageTransition": {
-    "type": "slide",
-    "duration": 300
-  }
+  "navigationBarTitleText": "编辑奖品"
 }
