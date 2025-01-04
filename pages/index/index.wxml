@@ -4,7 +4,7 @@
     <view class="prize-name">{{currentPrize || '??'}}</view>
   </view>
 
-  <view class="wheel-container">
+  <view class="wheel-container" style="z-index: 1;">
     <canvas type="2d" id="wheelCanvas" 
             style="width: {{canvasSize}}px; height: {{canvasSize}}px;"
             class="wheel-canvas">
@@ -17,6 +17,13 @@
     </view>
     <view class="edit-btn" bindtap="goToEdit">
       编辑奖品
+    </view>
+  </view>
+
+  <!-- 编辑弹出层 -->
+  <view class="edit-popup {{showEditPopup ? 'show' : ''}}" bindtap="hideEdit">
+    <view class="edit-content" catchtap="stopPropagation">
+      <include src="../edit/edit.wxml"/>
     </view>
   </view>
 </view> 

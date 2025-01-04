@@ -11,6 +11,8 @@ page {
   background: #f7f7f7;
   padding: 16px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 1;
 }
 
 .header {
@@ -43,6 +45,7 @@ page {
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .wheel-canvas {
@@ -113,4 +116,37 @@ button {
 
 button::after {
   border: none;
+}
+
+.edit-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.edit-popup.show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.edit-content {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background: #fff;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.edit-popup.show .edit-content {
+  transform: translateX(0);
 } 

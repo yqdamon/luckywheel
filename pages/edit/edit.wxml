@@ -1,82 +1,41 @@
 <view class="container">
-  <view class="section">
-    <text class="section-title">转盘标题</text>
-    <view class="cells">
-      <view class="cell">
-        <input class="cell-input" value="{{wheelTitle}}" 
-               placeholder="请输入转盘标题" 
-               placeholder-class="placeholder"
-               bindinput="onTitleInput"/>
+  <view class="title-edit">
+    <text class="title-label">转盘标题：</text>
+    <input class="title-input" 
+           type="text" 
+           value="{{wheelTitle}}" 
+           bindinput="onTitleChange"
+           placeholder="请输入转盘标题"/>
+  </view>
+
+  <view class="title-row">
+    <text>转盘选项</text>
+    <text>颜色</text>
+    <text>权重</text>
+  </view>
+  
+  <view class="prize-list">
+    <view class="prize-item" wx:for="{{prizes}}" wx:key="index">
+      <view class="prize-content">
+        <input class="prize-name" 
+               type="text" 
+               value="{{item.name}}" 
+               data-index="{{index}}"
+               bindinput="onNameChange"
+               placeholder="奖品名称"/>
+        <input class="prize-weight" 
+               type="number" 
+               value="{{item.weight}}" 
+               data-index="{{index}}"
+               bindinput="onWeightChange"
+               placeholder="权重"/>
       </view>
+      <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}">删除</view>
     </view>
   </view>
 
-  <view class="section">
-    <view class="section-header">
-      <text class="section-title">转盘选项</text>
-      <view class="header-info">
-        <text class="info-item">颜色</text>
-        <text class="info-item">权重</text>
-      </view>
-    </view>
-    
-    <view class="cells">
-      <view class="cell prize-cell" wx:for="{{prizes}}" wx:key="index">
-        <view class="cell-col delete-col">
-          <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}">
-            <view class="delete-icon"></view>
-          </view>
-        </view>
-        <view class="cell-col name-col">
-          <input class="prize-input" value="{{item.name}}" 
-                 placeholder="选项{{index + 1}}" 
-                 placeholder-class="placeholder"
-                 bindinput="onNameInput" 
-                 data-index="{{index}}"/>
-        </view>
-        <view class="cell-col color-col">
-          <view class="color-circle" style="background: {{item.color}}"
-                bindtap="onColorTap" data-index="{{index}}">
-          </view>
-        </view>
-        <view class="cell-col weight-col">
-          <input class="weight-input" type="number" value="{{item.weight}}" 
-                 placeholder="1" 
-                 placeholder-class="placeholder"
-                 bindinput="onWeightInput" 
-                 data-index="{{index}}"/>
-          <text class="probability">{{item.probability}}</text>
-        </view>
-      </view>
-
-      <view class="cell add-cell" bindtap="addPrize">
-        <view class="add-content">
-          <text class="add-icon">+</text>
-          <text class="add-text">添加选项</text>
-        </view>
-      </view>
-    </view>
-  </view>
-</view>
-
-<view class="footer">
-  <button class="save-btn" bindtap="saveChanges">完成</button>
-</view>
-
-<view class="color-picker" wx:if="{{showColorPicker}}">
-  <view class="color-picker-mask" bindtap="closeColorPicker"></view>
-  <view class="color-picker-content">
-    <view class="color-picker-header">
-      <text>选择颜色</text>
-      <view class="close-btn" bindtap="closeColorPicker">×</view>
-    </view>
-    <scroll-view scroll-y class="color-grid">
-      <view class="color-row" wx:for="{{[0,1,2,3,4,5,6,7,8,9]}}" wx:for-item="row" wx:key="*this">
-        <view class="color-item" wx:for="{{[0,1,2,3,4]}}" wx:for-item="col" wx:key="*this"
-              bindtap="onColorSelect" data-color-index="{{row * 5 + col}}">
-          <view class="color-circle" style="background: {{colorPalette[row * 5 + col].hex}}"></view>
-        </view>
-      </view>
-    </scroll-view>
+  <view class="button-group">
+    <button class="add-btn" bindtap="addPrize">添加奖品</button>
+    <button class="save-btn" bindtap="savePrizes">保存</button>
   </view>
 </view> 

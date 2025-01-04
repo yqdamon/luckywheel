@@ -11,6 +11,7 @@ Page({
     },
   
     onLoad() {
+      console.log('[Index] onLoad');
       const app = getApp();
       
       // 定义颜色数组
@@ -28,26 +29,34 @@ Page({
       // 确保有奖品数据
       if (!app.globalData.prizes || app.globalData.prizes.length === 0) {
         app.globalData.prizes = [
-          { name: '奖品1', weight: 1 },
-          { name: '奖品2', weight: 1 },
-          { name: '奖品3', weight: 1 },
-          { name: '奖品4', weight: 1 },
-          { name: '奖品5', weight: 1 },
-          { name: '奖品6', weight: 1 },
-          { name: '奖品7', weight: 1 },
-          { name: '奖品8', weight: 1 }
+          { name: '奖品1', weight: 10 },
+          { name: '奖品2', weight: 20 },
+          { name: '奖品3', weight: 30 },
+          { name: '奖品4', weight: 40 },
+          { name: '奖品5', weight: 50 },
+          { name: '奖品6', weight: 60 },
+          { name: '奖品7', weight: 70 },
+          { name: '奖品8', weight: 80 }
         ];
       }
       
+      // 计算总权重
+      const totalWeight = app.globalData.prizes.reduce((sum, p) => sum + (Number(p.weight) || 0), 0);
+      
       // 计算角度，从-90度（12点位置）开始
-      let startAngle = -90;  // 修改这里，从12点开始
-      const totalWeight = app.globalData.prizes.reduce((sum, p) => sum + (p.weight || 1), 0);
+      let startAngle = -90;
       
       const prizes = app.globalData.prizes.map((prize, index) => {
-        const weight = prize.weight || 1;
+        // 确保 weight 是数字类型
+        const weight = Number(prize.weight) || 0;
+        // 根据权重计算角度
         const angle = (weight / totalWeight) * 360;
+        
+        console.log(`Prize ${prize.name}: weight=${weight}, angle=${angle}`); // 调试日志
+        
         const prizeData = {
           ...prize,
+          weight: weight, // 确保存储的是数字类型
           startAngle: startAngle,
           endAngle: startAngle + angle,
           color: colors[index % colors.length]
@@ -55,6 +64,9 @@ Page({
         startAngle += angle;
         return prizeData;
       });
+      
+      console.log('Total weight:', totalWeight); // 调试日志
+      console.log('Processed prizes:', prizes); // 调试日志
       
       this.setData({
         prizes: prizes,
@@ -172,9 +184,52 @@ Page({
     },
   
     onShow() {
-      if (this.ctx) {
-        this.drawWheel();
+      console.log('[Index] onShow');
+      console.log('[Index] Current pages:', getCurrentPages());
+      const app = getApp();
+      
+      // 如果没有 ctx，说明画布还没初始化
+      if (!this.ctx) {
+        this.initCanvas();
+        return;
       }
+
+      // 重新计算奖品数据
+      const colors = [
+        '#FF9B9B', '#94D3CC', '#9ACDFF', '#FFB98E',
+        '#B6A4FF', '#FFE69A', '#98E698', '#FFA4D4'
+      ];
+
+      // 计算总权重
+      const totalWeight = app.globalData.prizes.reduce((sum, p) => sum + (Number(p.weight) || 0), 0);
+      
+      // 计算角度，从-90度（12点位置）开始
+      let startAngle = -90;
+      
+      const prizes = app.globalData.prizes.map((prize, index) => {
+        // 确保 weight 是数字类型
+        const weight = Number(prize.weight) || 0;
+        // 根据权重计算角度
+        const angle = (weight / totalWeight) * 360;
+        
+        const prizeData = {
+          ...prize,
+          weight: weight,
+          startAngle: startAngle,
+          endAngle: startAngle + angle,
+          color: colors[index % colors.length]
+        };
+        startAngle += angle;
+        return prizeData;
+      });
+      
+      // 更新数据并重绘
+      this.setData({
+        prizes: prizes,
+        wheelTitle: app.globalData.wheelTitle || '幸运大转盘'
+      }, () => {
+        this.drawWheel();
+      });
     },
   
     startLucky() {
@@ -192,9 +247,12 @@ Page({
       let probabilitySum = 0;
       let selectedPrize = null;
       
+      // 计算总权重
+      const totalWeight = prizes.reduce((sum, p) => sum + (Number(p.weight) || 0), 0);
+      
       // 根据权重选择奖品
       for (const prize of prizes) {
-        const probability = prize.weight / prizes.reduce((sum, p) => sum + p.weight, 0);
+        const probability = Number(prize.weight) / totalWeight;
         probabilitySum += probability;
         if (random <= probabilitySum) {
           selectedPrize = prize;
@@ -274,20 +332,70 @@ Page({
     },
   
     goToEdit() {
+      console.log('[Index] Navigating to edit page');
       wx.navigateTo({
-        url: '/pages/edit/edit'
+        url: '/pages/edit/edit',
+        success: (res) => {
+          console.log('[Index] Navigation success:', res);
+        },
+        fail: (err) => {
+          console.error('[Index] Navigation failed:', err);
+        }
       });
     },
   
     onHide() {
-      if (this.animationTimer) {
-        clearTimeout(this.animationTimer);
+      console.log('[Index] onHide');
+      // 页面隐藏时清理 canvas
+      if (this.ctx) {
+        console.log('[Index] Clearing canvas context');
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+        this.ctx = null;
+      }
+      if (this.canvas) {
+        this.canvas = null;
       }
     },
   
     onUnload() {
+      console.log('[Index] onUnload');
+      // 页面卸载时清理资源
       if (this.animationTimer) {
         clearTimeout(this.animationTimer);
       }
+      if (this.ctx) {
+        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
+        this.ctx = null;
+      }
+      if (this.canvas) {
+        this.canvas = null;
+      }
+    },
+  
+    showEdit() {
+      this.setData({
+        showEditPopup: true
+      });
+    },
+  
+    hideEdit() {
+      this.setData({
+        showEditPopup: false
+      });
+    },
+  
+    stopPropagation() {
+      // 阻止事件冒泡
+    },
+  
+    // 当编辑完成时调用
+    onEditComplete() {
+      this.hideEdit();
+      this.refreshWheel(); // 刷新大转盘
+    },
+  
+    refreshWheel() {
+      const app = getApp();
+      // ... 重新计算和绘制大转盘的代码 ...
     }
   })

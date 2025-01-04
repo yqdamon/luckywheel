@@ -64,130 +64,80 @@ const colorPalette = [
 
 Page({
   data: {
-    wheelTitle: '',
-    prizes: [],
-    showColorPicker: false,
-    currentColorIndex: -1,
-    colorPalette: colorPalette,
+    prizes: []
   },
 
   onLoad() {
-    // 从缓存或全局数据获取当前转盘数据
-    const app = getApp()
-    this.setData({
-      wheelTitle: app.globalData.wheelTitle || '幸运大转盘',
-      prizes: JSON.parse(JSON.stringify(app.globalData.prizes || []))
-    })
-  },
-
-  onTitleInput(e) {
-    this.setData({
-      wheelTitle: e.detail.value
-    })
-  },
-
-  onNameInput(e) {
-    const { index } = e.currentTarget.dataset
-    const { prizes } = this.data
-    prizes[index].name = e.detail.value
-    this.setData({ prizes })
-  },
-
-  onColorInput(e) {
-    const { index } = e.currentTarget.dataset
-    const { prizes } = this.data
-    prizes[index].color = e.detail.value
-    this.setData({ prizes })
-  },
-
-  onWeightInput(e) {
-    const index = e.currentTarget.dataset.index;
-    const value = parseInt(e.detail.value) || 0;
-    const { prizes } = this.data;
+    console.log('[Edit] onLoad');
+    const app = getApp();
     
-    prizes[index].weight = value;
-    
-    // 计算总权重和每个选项的概率
-    const totalWeight = prizes.reduce((sum, prize) => sum + (prize.weight || 0), 0);
-    prizes.forEach(prize => {
-      prize.probability = totalWeight > 0 ? 
-        ((prize.weight || 0) / totalWeight * 100).toFixed(1) + '%' : '0%';
+    // 设置导航栏标题与主页面一致
+    wx.setNavigationBarTitle({
+      title: app.globalData.wheelTitle || '幸运大转盘'
     });
     
+    this.setData({
+      prizes: app.globalData.prizes || []
+    });
+  },
+
+  onShow() {
+    console.log('[Edit] onShow');
+    console.log('[Edit] Current pages:', getCurrentPages());
+  },
+
+  onHide() {
+    console.log('[Edit] onHide');
+  },
+
+  onUnload() {
+    console.log('[Edit] onUnload');
+  },
+
+  onReady() {
+    console.log('[Edit] onReady');
+    // 检查页面元素
+    const query = wx.createSelectorQuery();
+    query.select('.container').boundingClientRect(rect => {
+      console.log('[Edit] Container rect:', rect);
+    }).exec();
+  },
+
+  onNameChange(e) {
+    const { index } = e.currentTarget.dataset;
+    const { value } = e.detail;
+    const prizes = this.data.prizes;
+    prizes[index].name = value;
+    this.setData({ prizes });
+  },
+
+  onWeightChange(e) {
+    const { index } = e.currentTarget.dataset;
+    const { value } = e.detail;
+    const prizes = this.data.prizes;
+    prizes[index].weight = value;
     this.setData({ prizes });
   },
 
   addPrize() {
-    const { prizes } = this.data
+    const prizes = this.data.prizes;
     prizes.push({
-      name: '新奖品',
-      color: '#' + Math.floor(Math.random()*16777215).toString(16),
+      name: '',
       weight: 1
-    })
-    this.setData({ prizes })
+    });
+    this.setData({ prizes });
   },
 
   deletePrize(e) {
-    const { index } = e.currentTarget.dataset
-    const { prizes } = this.data
-    prizes.splice(index, 1)
-    this.setData({ prizes })
+    const { index } = e.currentTarget.dataset;
+    const prizes = this.data.prizes;
+    prizes.splice(index, 1);
+    this.setData({ prizes });
   },
 
-  saveChanges() {
-    const { wheelTitle, prizes } = this.data;
-    
-    // 计算总权重
-    const totalWeight = prizes.reduce((sum, prize) => sum + (prize.weight || 0), 0);
-    
-    // 计算每个奖品的角度范围
-    let startAngle = 0;
-    const updatedPrizes = prizes.map(prize => {
-      const weight = prize.weight || 0;
-      const ratio = weight / totalWeight;
-      const angle = 360 * ratio;
-      
-      const prizeData = {
-        ...prize,
-        startAngle,
-        endAngle: startAngle + angle,
-        probability: ratio  // 保存实际概率用于抽奖
-      };
-      
-      startAngle += angle;
-      return prizeData;
-    });
-
-    getApp().globalData.wheelTitle = wheelTitle;
-    getApp().globalData.prizes = updatedPrizes;
-
+  savePrizes() {
+    const app = getApp();
+    app.globalData.prizes = this.data.prizes;
     wx.navigateBack();
-  },
-
-  onColorTap(e) {
-    const index = e.currentTarget.dataset.index;
-    this.setData({
-      showColorPicker: true,
-      currentColorIndex: index
-    });
-  },
-
-  onColorSelect(e) {
-    const colorIndex = e.currentTarget.dataset.colorIndex;
-    const { currentColorIndex, prizes } = this.data;
-    
-    if (currentColorIndex >= 0) {
-      prizes[currentColorIndex].color = colorPalette[colorIndex].hex;
-      this.setData({
-        prizes,
-        showColorPicker: false
-      });
-    }
-  },
-
-  closeColorPicker() {
-    this.setData({
-      showColorPicker: false
-    });
   }
-}) 
+}); 

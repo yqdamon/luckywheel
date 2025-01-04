@@ -7,305 +7,161 @@ page {
 }
 
 .container {
-  padding-bottom: 80px;
-}
-
-.section {
-  margin-top: 8px;
-  background: #fff;
-}
-
-.section-title {
-  display: block;
-  padding: 8px 15px;
-  font-size: 15px;
-  color: #666;
-  text-align: left;
-}
-
-.section-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0;
-  border-bottom: 0.5px solid #eee;
-}
-
-.section-header .section-title {
-  flex: 1;
-}
-
-.header-info {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding-right: 15px;
-}
-
-.info-item {
-  font-size: 14px;
-  color: #999;
-  min-width: 60px;
-  text-align: center;
-}
-
-.cells {
-  position: relative;
-  margin: 0;
-}
-
-.cell {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 12px 15px;
-  line-height: 1.4;
-  font-size: 17px;
-}
-
-.cell::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 15px;
-  right: 0;
-  height: 1px;
-  background: #eee;
-  transform: scaleY(0.5);
-}
-
-.cell:last-child::after {
-  display: none;
-}
-
-.cell-col {
-  display: flex;
-  align-items: center;
-}
-
-.delete-col {
-  width: 40px;
-}
-
-.name-col {
-  flex: 1;
-}
-
-.color-col {
-  width: 60px;
-  justify-content: center;
-  margin-right: 20px;
-}
-
-.weight-col {
-  width: 60px;
-  justify-content: center;
-}
-
-.delete-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-icon {
-  width: 22px;
-  height: 22px;
-  background: #ff3b30;
-  border-radius: 50%;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.delete-icon::before {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 2px;
-  background: #fff;
-  border-radius: 1px;
-}
-
-.prize-input {
-  width: 100%;
-  height: 36px;
-  font-size: 17px;
-}
-
-.cell .color-circle {
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.weight-input {
-  width: 40px;
-  height: 36px;
-  text-align: center;
-  font-size: 17px;
-  margin: 0 auto;
-}
-
-.cell-input {
-  width: 100%;
-  height: 36px;
-  font-size: 17px;
-}
-
-.placeholder {
-  color: #b2b2b2;
-}
-
-.add-cell {
-  padding: 12px 15px;
-}
-
-.add-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  color: #576b95;
-}
-
-.add-icon {
-  font-size: 20px;
-  margin-right: 4px;
-  line-height: 1;
-}
-
-.add-text {
-  font-size: 17px;
-}
-
-.footer {
   position: fixed;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 16px;
-  background: #fff;
-  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  background: #f7f7f7;
+  min-height: 100vh;
+  box-sizing: border-box;
   z-index: 100;
 }
 
-.save-btn {
-  width: 100% !important;
+.prize-list {
+  position: relative;
+  z-index: 101;
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.prize-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.prize-item:last-child {
+  border-bottom: none;
+}
+
+.prize-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.prize-name {
+  flex: 2;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.prize-weight {
+  flex: 1;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.delete-btn {
+  padding: 8px 15px;
+  background: #ff4444;
+  color: #fff;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-left: 10px;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  padding: 0 10px;
+  position: relative;
+  z-index: 101;
+}
+
+.add-btn, .save-btn {
+  flex: 1;
   height: 44px;
   line-height: 44px;
-  background: #07c160 !important;
-  color: #fff !important;
-  font-size: 17px;
+  text-align: center;
   border-radius: 4px;
-  border: none;
+  font-size: 16px;
+}
+
+.add-btn {
+  background: #fff;
+  color: #576b95;
+  border: 1px solid #ddd;
+}
+
+.save-btn {
+  background: #07c160;
+  color: #fff;
+}
+
+/* 修复按钮的默认样式 */
+button {
+  margin: 0;
   padding: 0;
+  background: none;
+  border: none;
+  border-radius: 0;
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
 }
 
 button::after {
   border: none;
 }
 
-.header-info .info-item:first-child {
-  width: 60px;
-  margin-right: 20px;
-  position: relative;
-  left: 12px;
-}
-
-.header-info .info-item:last-child {
-  width: 60px;
-}
-
-.color-picker {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 1000;
-}
-
-.color-picker-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.4);
-}
-
-.color-picker-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: #fff;
-  border-radius: 12px 12px 0 0;
-  padding: 20px 0;
-  max-height: 70vh;
+.title-row {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 10px 20px;
+  margin-bottom: 10px;
+  color: #333;
+  font-size: 15px;
+  font-weight: 500;
 }
 
-.color-picker-header {
-  width: 85%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 0.5px solid #eee;
-}
-
-.close-btn {
-  font-size: 24px;
-  color: #999;
-  padding: 5px;
-}
-
-.color-grid {
+.title-row text {
   flex: 1;
-  overflow-y: auto;
-  padding: 20px 0;
-  width: 85%;
-  margin: 0 auto;
+  text-align: left;
 }
 
-.color-row {
+.title-row text:nth-child(2) {
+  flex: 0.5;
+  text-align: center;
+}
+
+.title-row text:last-child {
+  flex: 0.5;
+  text-align: right;
+}
+
+.title-edit {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #fff;
+  border-radius: 8px;
   margin-bottom: 15px;
 }
 
-.color-item {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18%;
+.title-label {
+  font-size: 15px;
+  color: #333;
+  font-weight: 500;
+  margin-right: 10px;
 }
 
-.color-grid .color-circle {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.color-name {
-  display: none;
-}
-
-.weight-col {
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-
-.probability {
-  font-size: 12px;
-  color: #999;
+.title-input {
+  flex: 1;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 } 
