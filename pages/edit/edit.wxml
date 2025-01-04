@@ -12,16 +12,17 @@
     </view>
   </view>
 
-  <view class="weui-cells__title">转盘选项</view>
-  <view class="weui-cells weui-cells_after-title">
-    <view class="weui-cell">
-      <view class="weui-cell__bd header-row">
-        <text class="header-item name">选项</text>
-        <text class="header-item color">颜色</text>
-        <text class="header-item weight">权重</text>
-      </view>
+  <view class="weui-cells__title">
+    <view class="title-row">
+      <text>转盘选项</text>
+      <text>颜色</text>
+      <text>权重</text>
     </view>
+  </view>
+  
+  <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell prize-item" wx:for="{{prizes}}" wx:key="index">
+      <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}"></view>
       <view class="weui-cell__bd prize-inputs">
         <input class="weui-input prize-name" 
                type="text" 
@@ -38,9 +39,6 @@
                data-index="{{index}}"
                bindinput="onWeightChange"
                placeholder="权重"/>
-      </view>
-      <view class="weui-cell__ft">
-        <view class="delete-btn" bindtap="deletePrize" data-index="{{index}}">删除</view>
       </view>
     </view>
   </view>
