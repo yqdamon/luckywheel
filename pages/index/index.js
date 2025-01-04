@@ -7,7 +7,8 @@ Page({
       rotateAngle: 0,
       duration: 4000,
       lastAngle: 0,
-      canvasSize: 360
+      canvasSize: 360,
+      canvasReady: false
     },
   
     onLoad() {
@@ -101,9 +102,41 @@ Page({
           this.canvasWidth = res[0].width;
           this.canvasHeight = res[0].height;
           
-          // 立即绘制转盘
           this.drawWheel();
+          this.setData({ 
+            canvasReady: true,
+            canvasContext: ctx
+          });
+
+          // 保存 canvas 数据
+          this.saveCanvasData();
         });
+    },
+  
+    // 保存 canvas 数据
+    saveCanvasData() {
+      if (this.canvas && this.ctx) {
+        try {
+          const imageData = this.ctx.getImageData(0, 0, this.canvasWidth, this.canvasHeight);
+          this.setData({
+            canvasData: imageData
+          });
+        } catch (e) {
+          console.error('Save canvas data failed:', e);
+        }
+      }
+    },
+  
+    // 恢复 canvas 数据
+    restoreCanvasData() {
+      if (this.ctx && this.data.canvasData) {
+        try {
+          this.ctx.putImageData(this.data.canvasData, 0, 0);
+        } catch (e) {
+          console.error('Restore canvas data failed:', e);
+          this.drawWheel(); // 如果恢复失败，重新绘制
+        }
+      }
     },
   
     drawWheel() {
@@ -188,12 +221,17 @@ Page({
       console.log('[Index] Current pages:', getCurrentPages());
       const app = getApp();
       
-      // 如果没有 ctx，说明画布还没初始化
-      if (!this.ctx) {
+      if (this.data.canvasReady && this.ctx) {
+        // 尝试恢复 canvas 数据
+        if (this.data.canvasData) {
+          this.restoreCanvasData();
+        } else {
+          this.drawWheel();
+        }
+      } else {
         this.initCanvas();
-        return;
       }
-
+      
       // 重新计算奖品数据
       const colors = [
         '#FF9B9B', '#94D3CC', '#9ACDFF', '#FFB98E',
@@ -332,29 +370,20 @@ Page({
     },
   
     goToEdit() {
-      console.log('[Index] Navigating to edit page');
+      // 保存当前状态
+      // 使用微信小程序自带的导航
       wx.navigateTo({
         url: '/pages/edit/edit',
-        success: (res) => {
-          console.log('[Index] Navigation success:', res);
-        },
-        fail: (err) => {
-          console.error('[Index] Navigation failed:', err);
-        }
+        animationType: 'slide-in-right', // 从右侧滑入
+        animationDuration: 300 // 动画持续时间
       });
     },
   
     onHide() {
       console.log('[Index] onHide');
-      // 页面隐藏时清理 canvas
-      if (this.ctx) {
-        console.log('[Index] Clearing canvas context');
-        this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
-        this.ctx = null;
-      }
-      if (this.canvas) {
-        this.canvas = null;
-      }
+      // 页面隐藏时保存 canvas 数据
+      this.saveCanvasData();
+      console.log('页面隐藏');
     },
   
     onUnload() {

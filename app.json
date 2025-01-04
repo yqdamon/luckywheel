@@ -10,5 +10,8 @@
     "navigationBarTextStyle": "black"
   },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "pageTransition": {
+    "type": "slide",
+    "duration": 300
+  }
 } 
