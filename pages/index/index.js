@@ -198,28 +198,17 @@ Page({
   
     onShow() {
       console.log('[Index] onShow');
-      console.log('[Index] Current pages:', getCurrentPages());
+      // 获取最新的奖品数据
       const app = getApp();
       
-      if (this.data.canvasReady && this.ctx) {
-        this.drawWheel();  // 直接重绘
-      } else {
-        this.initCanvas();
-      }
-      
-      // 重新计算奖品数据
-      const colors = [
-        '#FF9B9B', '#94D3CC', '#9ACDFF', '#FFB98E',
-        '#B6A4FF', '#FFE69A', '#98E698', '#FFA4D4'
-      ];
-
       // 计算总权重
       const totalWeight = app.globalData.prizes.reduce((sum, p) => sum + (Number(p.weight) || 0), 0);
       
       // 计算角度，从-90度（12点位置）开始
       let startAngle = -90;
       
-      const prizes = app.globalData.prizes.map((prize, index) => {
+      // 使用不同的变量名避免冲突
+      const processedPrizes = app.globalData.prizes.map((prize, index) => {
         // 确保 weight 是数字类型
         const weight = Number(prize.weight) || 0;
         // 根据权重计算角度
@@ -230,19 +219,25 @@ Page({
           weight: weight,
           startAngle: startAngle,
           endAngle: startAngle + angle,
-          color: colors[index % colors.length]
+          color: prize.color || this.data.prizes[index]?.color
         };
         startAngle += angle;
         return prizeData;
       });
       
-      // 更新数据并重绘
-      this.setData({
-        prizes: prizes,
-        wheelTitle: app.globalData.wheelTitle || '幸运大转盘'
-      }, () => {
-        this.drawWheel();
-      });
+      // 更新数据并重绘转盘
+      if (processedPrizes.length > 0) {
+        this.setData({ 
+          prizes: processedPrizes 
+        }, () => {
+          // 确保数据更新后再重绘
+          if (this.ctx) {
+            this.drawWheel();
+          } else {
+            this.initCanvas();
+          }
+        });
+      }
     },
   
     startLucky() {

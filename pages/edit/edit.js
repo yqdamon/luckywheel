@@ -155,9 +155,15 @@ Page({
   },
 
   savePrizes() {
+    // 保存时更新全局数据
     const app = getApp();
     app.globalData.prizes = this.data.prizes;
-    wx.navigateBack();
+    app.globalData.wheelTitle = this.data.wheelTitle;
+    
+    // 直接返回上一页
+    wx.navigateBack({
+      delta: 1
+    });
   },
 
   showColorPicker(e) {
@@ -181,8 +187,8 @@ Page({
     const { color } = e.currentTarget.dataset;
     const { currentColorIndex, prizes } = this.data;
     
-    // 直接更新颜色并关闭弹窗
     if (currentColorIndex >= 0) {
+      // 只在本地更新颜色，不更新全局数据
       prizes[currentColorIndex].color = color;
       this.setData({
         prizes: this.calculatePercents(prizes),
